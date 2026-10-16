@@ -1,0 +1,52 @@
+{
+  "n_samples": 100,
+  "seed": 42,
+  "method": "scipy.stats.qmc.LatinHypercube",
+  "scramble": true,
+  "optimization": "random-cd",
+  "scipy_version": "1.18.1",
+  "parameters": [
+    {
+      "name": "maximum_growth_rate",
+      "lower": 0.4,
+      "upper": 3.3,
+      "baseline": 2.09,
+      "unit": "day^-1"
+    },
+    {
+      "name": "chlorophyll_ratio",
+      "lower": 0.26,
+      "upper": 2.62,
+      "baseline": 1.31,
+      "unit": "mg Chl (mmol N)^-1"
+    },
+    {
+      "name": "iron_half_saturation",
+      "lower": 0.02,
+      "upper": 1.0,
+      "baseline": 0.2,
+      "unit": "nM"
+    },
+    {
+      "name": "nitrate_half_saturation",
+      "lower": 0.05,
+      "upper": 3.0,
+      "baseline": 0.7,
+      "unit": "uM"
+    },
+    {
+      "name": "light_half_saturation",
+      "lower": 10.0,
+      "upper": 100.0,
+      "baseline": 33.0,
+      "unit": "W m^-2"
+    },
+    {
+      "name": "maximum_grazing_rate",
+      "lower": 0.2,
+      "upper": 1.8,
+      "baseline": 0.8,
+      "unit": "day^-1"
+    }
+  ]
+}
