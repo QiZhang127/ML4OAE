@@ -18,7 +18,7 @@ nvidia-smi --query-gpu=index,uuid,memory.used,memory.total --format=csv
 module --force purge
 module load Julia/1.12.4-linux-x86_64
 module load OpenMPI/5.0.3-GCC-13.3.0-CUDA-12.6.0
-export JULIA_DEPOT_PATH=/nfs/roberts/pi/pi_ey239/qi/julia_depot
+export JULIA_DEPOT_PATH=/nfs/roberts/pi/pi_ey239/qz334/julia_depot
 
 project_dir=/nfs/roberts/pi/pi_ey239/qz334/NumericalOcean
 script_dir=/nfs/roberts/pi/pi_ey239/qz334/ML4OAE
