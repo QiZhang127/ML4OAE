@@ -51,7 +51,7 @@ arch = GPU()
 grid = ORCA1(arch)
 plankton = PhytoZoo(eltype(grid); plankton_parameters...)
 
-# Retain the nitrogen-pool positivity modifier used by the previous LOBSTER runs.
+# Apply positivity correction to the nitrogen pools.
 nitrogen_positivity = ScaleNegativeTracers(
     (:NO₃, :NH₄, :P, :Z, :DOM, :sPOM, :bPOM); warn = false)
 
@@ -74,7 +74,7 @@ formal_end_date = DateTime(2011, 1, 1)
 forcing_end_date = DateTime(2018, 1, 1)
 pCO₂ = MaunaLoaCO₂(arch; start_date, end_date = forcing_end_date)
 
-# Jago's Amazon release: 1 Tmol over 365 days, beginning on 2000-01-01.
+# Amazon release: 1 Tmol over 365 days, beginning on 2000-01-01.
 # Model time is measured from start_date, including leap days.
 oae_start_date = DateTime(2000, 1, 1)
 oae_start_time = Dates.value(oae_start_date - start_date) / 1000
@@ -94,13 +94,13 @@ simulation = forced_ocean_simulation(grid;
     progress_frequency = 10,
 )
 
-# Load Jago's physical spin-up. This driver starts BGC from initial fields.
+# Load the physical restart; BGC tracers start from initialized fields.
 restart_path = pickup_restart!(simulation, start_date; start_date)
 ocean = simulation.model.ocean.model
 grid = ocean.grid
 
-# Depth-dependent P/Z seeds inherited from Initialization_Ice_iron.jl (mmol N m⁻³).
-# Nutrients, oxygen, DIC and alkalinity were initialized from UnifiedBGC.
+# Depth-dependent P/Z initial fields (mmol N m⁻³).
+# UnifiedBGC initializes nutrients, oxygen, DIC and alkalinity.
 upper_ocean_weight(z) = 0.5 * (1 + tanh((z + 100) / 30))
 P_initial(x, y, z) = 0.001 + (0.01 - 0.001) * upper_ocean_weight(z)
 Z_initial(x, y, z) = 0.0001 + (0.001 - 0.0001) * upper_ocean_weight(z)
@@ -187,7 +187,7 @@ metadata = Dict(
     "stop_date" => string(start_date + Millisecond(round(Int, simulation.stop_time * 1000))),
     "NumericalOcean_version" => string(Base.pkgversion(NumericalOcean)),
     "OceanBioME_version" => string(Base.pkgversion(OceanBioME)),
-    "biomass_initialization" => "Inherited P/Z depth profiles; DOM, sPOM, bPOM zero",
+    "biomass_initialization" => "Depth-dependent P/Z profiles; DOM, sPOM, bPOM zero",
     "CHL_units" => "mg Chl m-3", "PP_units" => "mg C m-2 day-1", "fCO2_units" => "uatm",
     "PP_definition" => "Full-column growth-based carbon production, including exudate",
     "calibration_fCO2" => "fCO2 (control; DIC1/Alk1)",
